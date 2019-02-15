@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "react": "webpack -d --watch",
-    "server": "nodemon server/index.js rs",
+    "server": "nodemon server/index.js",
     "start": "node server/index.js rs",
     "seedschedule": "node database/seedscripts/seedschedule.js",
     "seedfeed": "node database/seedscripts/seedfeed.js",
@@ -32,7 +32,7 @@
     "express": "^4.15.0",
     "jest": "^23.6.0",
     "jquery": "^3.1.1",
-    "mongoose": "^4.9.6",
+    "mongoose": "^4.13.18",
     "react-awesome-modal": "^2.0.5",
     "react-test-renderer": "^15.6.2",
     "request": "^2.81.0",
@@ -45,12 +45,14 @@
     "cors": "^2.8.5",
     "faker": "^4.1.0",
     "knex": "^0.16.3",
+    "mongodb": "^3.1.13",
     "node-fetch": "^2.3.0",
     "pg": "^7.8.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "^2.1.1"
+    "react-scripts": "^2.1.1",
+    "sqlite3": "^4.0.6"
   }
 }

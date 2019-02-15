@@ -72,7 +72,7 @@ let generateDataFunc = function (numberOfRecords) {
   return results;
 }
 
-
+console.log(generateDataFunc(1))
 
 exports.seed = knex => knex('schedule').del()
             .then(() => console.log('starting' + new Date()))
