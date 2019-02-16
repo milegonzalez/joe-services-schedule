@@ -1,5 +1,16 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/schedule');
+const option = {
+  socketTimeoutMS: 30000,
+  keepAlive: true,
+  reconnectTries: 30000
+};
+
+mongoose.connect('mongodb://localhost/schedule', option)
+  .then(function(){
+    console.log('connected successfully')
+  }, function (err) {
+    console.log('error - connection ended')
+  });
 let db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
@@ -34,35 +45,6 @@ let scheduleSchema = new mongoose.Schema({
 
 let Schedule = mongoose.model('schedule', scheduleSchema);
 
-
-// let record = new Schedule ({
-//   'vs': ' vs ',
-//   'city': 'South Christopher',
-//   'team': 'Seattle Seahawks',
-//   'teamlogo': 'http://lorempixel.com/640/480/sports',
-//   'week': '23:16:44',
-//   'date': '28-Oct-2018',
-//   'opponent': 'Los Angeles Rams',
-//   'opponentlogo': 'http://lorempixel.com/640/480/sports',
-//   'result': '8-4',
-//   'winloss': '1-6',
-//   'wl': ' L',
-//   'link': 'https://dashawn.net',
-//   'feed': 'maxime earum laboriosam',
-//   'playerpass': 'Funk',
-//   'playerrush': 'Hermann',
-//   'stats': {
-//     'pass': 42,
-//     'rush': 63,
-//     'rec': 171
-//   }
-// })
-
-
-// record.save(function (err, record) {
-//   if (err) return console.log('there has been an error')
-//   console.log('record inserted', record);
-// })
 let generateTeamFunc = function (number) {
   let teams = [
    "Arizona Cardinals",
@@ -133,49 +115,6 @@ const recordGeneratingFunc = function (numberOfRecords) {
   return results;
 }
 
-// let docs = [{
-//   'vs': ' vs ',
-//   'city': 'South Christopher',
-//   'team': 'Seattle Seahawks',
-//   'teamlogo': 'http://lorempixel.com/640/480/sports',
-//   'week': '23:16:44',
-//   'date': '28-Oct-2018',
-//   'opponent': 'Los Angeles Rams',
-//   'opponentlogo': 'http://lorempixel.com/640/480/sports',
-//   'result': '8-4',
-//   'winloss': '1-6',
-//   'wl': ' L',
-//   'link': 'https://dashawn.net',
-//   'feed': 'maxime earum laboriosam',
-//   'playerpass': 'Funk',
-//   'playerrush': 'Hermann',
-//   'stats': {
-//     'pass': 42,
-//     'rush': 63,
-//     'rec': 171
-//   }}, {
-//     'vs': ' vs ',
-//     'city': 'South ',
-//     'team': '',
-//     'teamlogo': 'http://lompixel.com/640/480/sports',
-//     'week': '23:16:',
-//     'date': '28-Oct-',
-//     'opponent': 'Los ',
-//     'opponentlogo': 'http://lorempixel.com/640/480/sports',
-//     'result': '9-4',
-//     'winloss': '1-06',
-//     'wl': ' R',
-//     'link': 'http://dashawn.net',
-//     'feed': 'mme earum laboriosam',
-//     'playerpass': 'gal',
-//     'playerrush': 'rmann',
-//     'stats': {
-//       'pass': 42,
-//       'rush': 63,
-//       'rec': 171
-//   }}]
-
-
 let insert10000Records = function (numberOfTimes) {
   for (let i = 0; i < numberOfTimes; i++){
     Schedule.collection.insert(recordGeneratingFunc(10000));
@@ -183,4 +122,23 @@ let insert10000Records = function (numberOfTimes) {
   console.log('done!');
 }
 
-insert10000Records(1000);
+// insert10000Records(50)
+
+function resolveAfter2Seconds() {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(insert10000Records(20));
+    }, 2000);
+  });
+}
+
+async function asyncCall(n) {
+  console.log('starting inserting records ', new Date());
+  for(var i = 0; i < n; i++){
+  var result = await resolveAfter2Seconds();
+  }
+  console.log('10M records inserted ' , new Date());
+  // expected output: 'resolved'
+}
+
+console.log(asyncCall(25));
