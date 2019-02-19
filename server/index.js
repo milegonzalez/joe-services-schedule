@@ -36,10 +36,12 @@ app.post('/schedule', (req, res) => {
 });
 
 app.delete('/schedule', (req, res) => {
-  Schedule.deleteOne({ city:'Reichertside' }, function (err) {});
+  Schedule.deleteOne({ city: req.body }, function (err) {});
 });
 
-
+app.update('/schedule', (req, res) => {
+  Schedule.updateOne({city: req.body }, function(err){});
+});
 
 const port = process.env.PORT || 3000;
 
